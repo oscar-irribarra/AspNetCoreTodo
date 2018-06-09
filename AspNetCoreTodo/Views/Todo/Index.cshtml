@@ -1,0 +1,34 @@
+@model AspNetCoreTodo.ViewModels.TodoViewModel
+@using Humanizer
+
+@{
+    ViewData["Title"] = "Manage your To-Do list";
+}
+
+<div class="panel panel-default todo-panel">
+    <div class="panel-heading">@ViewData["Title"]</div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>&#x2714;</th>
+                <th>Item</th>
+                <th>Due</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Items)
+            {
+                <tr>
+                    <td><input type="checkbox" class="done-checkbox"></td>
+                    <td>@item.Title</td>
+                    <td>@item.DueAt.Humanize()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="panel-footer add-item-form">
+
+    </div>
+</div>
