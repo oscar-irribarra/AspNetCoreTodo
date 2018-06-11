@@ -9,6 +9,7 @@ namespace AspNetCoreTodo.Models{
 
         [Required]
         public string Title { get; set; }
+        [DataType(DataType.Date)] //doesn't work with ie <= 11
         public DateTimeOffset? DueAt { get; set; }
     }
 }

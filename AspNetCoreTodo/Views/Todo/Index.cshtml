@@ -14,6 +14,7 @@
                 <th>&#x2714;</th>
                 <th>Item</th>
                 <th>Due</th>
+                <th>IsDone</th>
             </tr>
         </thead>
         <tbody>
@@ -23,12 +24,18 @@
                     <td><input type="checkbox" class="done-checkbox"></td>
                     <td>@item.Title</td>
                     <td>@item.DueAt.Humanize()</td>
+                    <td>
+                        <form asp-action="MarkDone" method="POST">
+                            <input type="checkbox" class="done-checkbox">
+                            <input type="hidden" name="id" value="@item.Id">
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 
     <div class="panel-footer add-item-form">
-
+        @await Html.PartialAsync("_AddItemPartial", new AspNetCoreTodo.ViewModels.TodoViewModel())        
     </div>
 </div>

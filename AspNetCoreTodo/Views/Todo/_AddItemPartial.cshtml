@@ -1,0 +1,9 @@
+@model AspNetCoreTodo.ViewModels.TodoViewModel
+
+<form asp-action="AddItem" method="POST">
+    <label asp-for="Item.Title">Agregar Nuevo Item: </label>
+    <input asp-for="Item.Title">
+    <label asp-for="Item.Title">Agregar Fecha: </label>
+    <input asp-for="Item.DueAt">
+    <button type="submit">Add</button>
+</form>

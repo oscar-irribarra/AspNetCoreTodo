@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using AspNetCoreTodo.Services;
 using AspNetCoreTodo.ViewModels;
 using System.Threading.Tasks;
+using AspNetCoreTodo.Models;
 
 namespace AspNetCoreTodo.Controllers
 {
@@ -24,6 +25,34 @@ namespace AspNetCoreTodo.Controllers
             };
 
             return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddItem(TodoViewModel todoItem)
+        {
+            if(!ModelState.IsValid)
+                return RedirectToAction("Index");
+
+            var respuesta = await _todoItemService.AddItemAsync(todoItem.Item);
+
+            if(!respuesta)
+                return BadRequest(new { error = "no se puede agregar el item"});   
+
+            return RedirectToAction("Index");
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkDone(Guid id)
+        {
+            if(id == Guid.Empty)
+                return RedirectToAction("Index");
+
+            var respuesta = await _todoItemService.MarkDoneAsync(id);
+
+            if(!respuesta)
+                return BadRequest(new { error = "no se puede marcar este item como terminado"});
+
+            return RedirectToAction("Index");
         }
     }
 }
