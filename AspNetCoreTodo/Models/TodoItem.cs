@@ -11,5 +11,7 @@ namespace AspNetCoreTodo.Models{
         public string Title { get; set; }
         [DataType(DataType.Date)] //doesn't work with ie <= 11
         public DateTimeOffset? DueAt { get; set; }
+
+        public string UserId { get; set; }
     }
 }

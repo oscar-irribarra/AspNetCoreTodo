@@ -7,6 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using AspNetCoreTodo.Data;
 
 namespace AspNetCoreTodo
 {
@@ -14,7 +16,29 @@ namespace AspNetCoreTodo
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+            InitializeDatabase(host);
+            host.Run();
+        }
+
+        private static void InitializeDatabase(IWebHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    SeedData.InitializeAsync(services).Wait(); 
+                    //wait() se asegura de que la tarea finalize antes que la app inicie.
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "Error");
+                }
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
