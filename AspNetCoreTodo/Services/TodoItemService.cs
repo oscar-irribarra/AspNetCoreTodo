@@ -19,7 +19,6 @@ namespace AspNetCoreTodo.Services
         public async Task<bool> AddItemAsync(TodoItem todoItem, ApplicationUser user)
         {
             todoItem.Id = Guid.NewGuid();
-            // todoItem.DueAt = DateTimeOffset.Now.AddDays(3);
             todoItem.IsDone = false;
             todoItem.UserId = user.Id;
            _context.Items.Add(todoItem);
